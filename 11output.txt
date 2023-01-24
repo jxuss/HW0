@@ -1,0 +1,23 @@
+Hello jxu, your home is /Users/jxu, and your shell is /bin/zsh
+/Users/jxu/Code/MCB185-2023:
+ASSESSMENT.md
+README.md
+REFERENCE.md
+unit0_tools_of_the_trade
+unit1_basic_unix
+unit2_beginning_python
+unit3_tuples_and_lists
+unit4_functions_and_files
+unit5_advanced_linux
+unit6_dictionaries_and_regex
+unit7_complex_data_structures
+unit8_final_projects
+unit9_unfinished_tales
+
+/Users/jxu/Code/homework:
+00helloworld.py
+10hello.sh
+11output.txt
+LICENSE
+README.md
+E.coli
