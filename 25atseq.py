@@ -25,17 +25,17 @@ nt = 30
 dna = ''
 at = 0
 for i in range(nt):
-    r = random.randint(1,4)
-    if r == 1:
-        dna = 'A' + dna
-        at +=1
-    elif r == 2:
-        dna = 'T' + dna
-        at +=1
-    elif r == 3:
-        dna = 'C' + dna
-    else :
-        dna = 'G' + dna
+	r = random.randint(1,4)
+	if r == 1:
+		dna = 'A' + dna
+		at +=1
+	elif r == 2:
+		dna = 'T' + dna
+		at +=1
+	elif r == 3:
+		dna = 'C' + dna
+	else :
+		dna = 'G' + dna
 AT = at / nt
 
 print(nt, AT, dna)

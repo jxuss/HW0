@@ -20,9 +20,9 @@ k=5
 s = 0
 f = 1
 for i in range(1, k+1, 1): 
-    #print(i, 'indicator')
-    s = s + i
-    f = f * i
-    #print(k, s, f)
-    if i == k:
-        print(k, s, f)
+	#print(i, 'indicator')
+	s = s + i
+	f = f * i
+	#print(k, s, f)
+	if i == k:
+		print(k, s, f)

@@ -23,9 +23,9 @@ import math
 
 print('python3 21codons.py')
 for i in range(len(dna)):
-    if i % 3 == 0:
-        print(dna[i:i+3])
+	if i % 3 == 0:
+		print(dna[i:i+3])
 
-    
-    
+	
+	
 

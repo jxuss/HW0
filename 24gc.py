@@ -17,10 +17,10 @@ print('python3 24gc.py')
 n = 0
 
 for i in range(len(dna)):
-    gc = dna[i]
-    if gc == 'C' or gc == 'G':
-        n = n+1
-    # print(gc,n)
+	gc = dna[i]
+	if gc == 'C' or gc == 'G':
+		n = n+1
+	# print(gc,n)
 gc_precent = n / len(dna)
 # print(gc_precent)
 

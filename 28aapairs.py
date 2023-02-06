@@ -209,9 +209,9 @@ abc = "ACDEFGHIKLMNPQRSTVWY"
 n = 0 
 
 for i in range (len(abc)):
-    for j in range (i+1, len(abc)):
-        n +=1
-        print (abc[i],abc[j] )
+	for j in range (i+1, len(abc)):
+		n +=1
+		print (abc[i],abc[j] )
 
 print(n)
 

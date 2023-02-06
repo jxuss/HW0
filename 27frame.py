@@ -27,14 +27,14 @@ print('python3 27frame.py')
 # single loop
 frame = 0
 for i in range(0,len(dna),1):
-    if   i % 3 == 0: frame = 0
-    elif i % 3 == 1: frame = 1
-    else           : frame = 2
-    print (i, frame, dna[i])
+	if   i % 3 == 0: frame = 0
+	elif i % 3 == 1: frame = 1
+	else           : frame = 2
+	print (i, frame, dna[i])
 
 
 # nested loops
 for i in range(0,len(dna),3):
-    for j in range(3):
-        print(i+j,j,dna[i+j])
+	for j in range(3):
+		print(i+j,j,dna[i+j])
 

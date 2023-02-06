@@ -71,19 +71,19 @@ print('python3 26gcwin.py')
 dna = ''
 
 for i in range(len(seq)):
-    dna = seq[i:i+w]
-    # print(i,dna)
+	dna = seq[i:i+w]
+	# print(i,dna)
 
-    gc = 0
-    for j in range(len(dna)):
-        if dna[j] == 'G' or dna[j] == 'C':
-            gc += 1
-        gc_precent = gc/w
-    print(i, dna, f'{gc_precent:.4f}')
-    
-    if i+w > len(seq)-1:
-        break
-    
+	gc = 0
+	for j in range(len(dna)):
+		if dna[j] == 'G' or dna[j] == 'C':
+			gc += 1
+		gc_precent = gc/w
+	print(i, dna, f'{gc_precent:.4f}')
+	
+	if i+w > len(seq)-1:
+		break
+	
 '''    
 
 
@@ -91,16 +91,16 @@ for i in range(len(seq)):
 # not finished
 
 for i in range(len(seq)):
-    dna = seq[i:i+w]
-    # print(i,dna)
-    if i+w > len(seq)-1:
-        break
+	dna = seq[i:i+w]
+	# print(i,dna)
+	if i+w > len(seq)-1:
+		break
 
 gc = 0
 for j in range(len(dna)):
-    if dna[j] == 'G' or dna[j] == 'C':
-        gc += 1
-        gc_precent = gc/w
+	if dna[j] == 'G' or dna[j] == 'C':
+		gc += 1
+		gc_precent = gc/w
 
 print(i, dna, f'{gc_precent:.4f}')
 

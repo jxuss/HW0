@@ -18,10 +18,10 @@ print('python3 26anti.py')
 anti = ''
 
 for nt in dna:
-    if   nt  == 'A': anti = 'T' + anti 
-    elif nt  == 'T': anti = 'A' + anti 
-    elif nt  == 'C': anti = 'G' + anti 
-    else           : anti = 'C' + anti 
+	if   nt  == 'A': anti = 'T' + anti 
+	elif nt  == 'T': anti = 'A' + anti 
+	elif nt  == 'C': anti = 'G' + anti 
+	else           : anti = 'C' + anti 
 
 # print(dna)
 print(anti)

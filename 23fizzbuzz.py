@@ -120,24 +120,24 @@ n = 100
 k = 1
 
 for i in range(m, n+1, k):
-    s = i
-    is_div3 = False
-    if i % 3 == 0: 
-        is_div3 = True
-        s = 'Fizz'
+	s = i
+	is_div3 = False
+	if i % 3 == 0: 
+		is_div3 = True
+		s = 'Fizz'
 
 
-    is_div5 = False
-    if i % 5 == 0: 
-        is_div5 = True
-        s = 'Buzz'
+	is_div5 = False
+	if i % 5 == 0: 
+		is_div5 = True
+		s = 'Buzz'
 
-    is_div15 = False
-    if i % 15 == 0:
-        is_div15 = True
-        s = 'FizzBuzz'
+	is_div15 = False
+	if i % 15 == 0:
+		is_div15 = True
+		s = 'FizzBuzz'
 
 
-    print(s)
+	print(s)
 
-    
+	

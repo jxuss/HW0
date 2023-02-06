@@ -19,4 +19,7 @@ python3 20loop.py
 
 print('python3 20loop.py')
 for i in range(5,50,7):
-    print(i)
+	print(i)
+
+
+   
