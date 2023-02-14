@@ -21,7 +21,7 @@ import random
 numb = []
 
 for num in sys.argv[1:]:
-    numb.append(int(num))
+	numb.append(int(num))
 
 genome_size = numb[0]
 read_number = numb[1]
@@ -37,11 +37,12 @@ print(genome_size, read_number, read_length)
 
 gene = [0] * genome_size
 for i in range(read_number):
-    read = random.randint(1, genome_size - read_length)
-    for j in range(read_length):
-        gene[read+j] +=1
-    
+	read = random.randint(1, genome_size - read_length)
+	for j in range(read_length):
+		gene[read+j] +=1
+	
 geneseq = gene[read_length:genome_size-read_length]
+		# = gene[read_length : -read_length]
 
 avg = sum(geneseq)/len(geneseq)
 print(min(geneseq), max(geneseq), f'{avg:.5f}')

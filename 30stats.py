@@ -6,7 +6,8 @@
 # Hint: use sys.argv to get the values from the command line
 
 # Note: you are not allowed to import any library except sys
-#cd ~/Code/HWnow 
+# cd ~/Code/HWnow 
+
 import sys
 import math
 
@@ -14,7 +15,7 @@ import math
 
 numb = []
 for num in sys.argv[1:]:
-    numb.append(float(num))
+	numb.append(float(num))
 numb.sort()
 print(numb)
 
@@ -23,15 +24,15 @@ mean = sum(numb) / len(numb)
 var = 0
 sd = 0
 for x in numb:
-    var += ((x - mean))**2 
+	var += ((x - mean))**2 
 sd = (var/len(numb))**0.5
 # print(var, sd)
 
 midpoint = len(numb)//2
 if len(numb) % 2 ==1:
-    median = numb[midpoint]
+	median = numb[midpoint]
 else:
-    median = (numb[midpoint] + numb[midpoint-1])/2
+	median = (numb[midpoint] + numb[midpoint-1])/2
 
 # print(median)
 
