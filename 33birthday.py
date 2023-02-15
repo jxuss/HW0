@@ -12,37 +12,45 @@
 
 import sys
 import random 
-"""
+
 numb = []
+
 for num in sys.argv[1:]:
-    numb.append(float(num))
-print(numb)
+	numb.append(int(num))
+# print(numb)
+days = numb[0]
+people = numb [1]
+
+"""
+days = 365
+people = 23
 """
 
-
-# print(day)
-
+trials = 10000
 total = 0
-for t in range(0,100000):
-    day = [0] * 365
-    # print(day)
-    bday = 0
-    for i in (1,23):
-        d = random.randint(0,364)
-        # print(d)
-        day[d] += 1
-        if day[d] > 1:
-            bday = 1
-    total += bday
 
-prob = total/100000
+
+for t in range(0,trials):
+	day = [0] * days
+	# print(day)
+	bday = False
+	for i in range(people):
+		d = random.randint(0,days-1)
+		# print(d)
+		day[d] += 1
+		if day[d] == 2:
+			bday = True
+			break
+	if bday: total +=1 
+
+prob = total/trials
 print(f'{prob:.3f}')
 
 
 
 
 
-    
+	
 
 """
 python3 33birthday.py 365 23
