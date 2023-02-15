@@ -25,14 +25,15 @@ nt = 30
 dna = ''
 at = 0
 for i in range(nt):
-	r = random.randint(1,4)
-	if r == 1:
+	r = random.randint(1,10)
+	print (r)
+	if r == 1 or r == 2 or r == 3:
 		dna = 'A' + dna
 		at +=1
-	elif r == 2:
+	elif r == 4 or r == 5 or r == 6:
 		dna = 'T' + dna
 		at +=1
-	elif r == 3:
+	elif r == 7 or r == 8:
 		dna = 'C' + dna
 	else :
 		dna = 'G' + dna
