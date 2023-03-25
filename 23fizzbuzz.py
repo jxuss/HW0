@@ -112,7 +112,7 @@ Fizz
 Buzz
 """
 
-import math
+
 print('python3 23fizzbuzz.py')
 
 m = 1

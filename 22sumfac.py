@@ -25,4 +25,6 @@ for i in range(1, k+1, 1):
 	f = f * i
 	#print(k, s, f)
 	if i == k:
-		print(k, s, f)
+		break
+		
+print(k, s, f)
