@@ -16,60 +16,74 @@
 # Hint: make a smaller file for testing (e.g. e.coli.fna in the CLI below)
 # cd ~/Code/HWnow 
 # python3 50dust.py -w 11 -t 1.4 -s test.fa  | head
+# python3 50dust.py -w 11 -t 1.4 -s testfile.fa  | head
+
 
 import argparse
-import math
 import mcb185
+import math
 
 parser = argparse.ArgumentParser(description='Entropy')
 parser.add_argument('file', type=str, metavar='<path>', help='some file')
-parser.add_argument('-w', required=False, type=int, metavar='<int>', default=11, help='integer')
-parser.add_argument('-t', required=False, type=float, metavar='<float>', default=.4, help='floating point')
-parser.add_argument('-s', action='store_true', help='masking')
-
+parser.add_argument('-w', required=False, type=int, metavar='<int>', default=11, help='window size')
+parser.add_argument('-t', required=False, type=float, metavar='<float>', default=1.4, help='entropy threshold')
+parser.add_argument('-s', action='store_true', help='on/off switch for lowercase masking')
 arg = parser.parse_args()
 
-file = arg.file
-window = arg.w
-threshold = arg.t
+c = 'ACGT'
+m = arg.w // 2
 
-def entropy(seq, window, threshold):
-	ea = 0
-	et = 0
-	ec = 0
-	eg = 0
-	for nt in seq:
-		if nt == 'A': ea += 1
-		elif nt == 'T': et += 1
-		elif nt == 'C': ec += 1
-		elif nt == 'G': eg += 1
-	prob = [ea/window, et/window, ec/window, eg/window]
-	h = 0
-	for p in prob:
-		if p == 0: continue
-		h -= p*math.log2(p)
-	if h < threshold: filt = True
-	else: filt = False
-	return filt
+if arg.s ==True:
+	def convert(nucleotide):
+		return nucleotide.lower()
+else:
+	def convert(nucleotide):
+		return 'N'
 
-seqs = []
-for defline, seq in mcb185.read_fasta(file):
-	seq = seq.upper()
-	new_seq = ''
-	for i in range(0,len(seq)):
-		
-		if entropy(seq[i:i+window], window, threshold):
-			if arg.s:
-				seql = seq[i:i+window].lower()
-				new_seq = new_seq[:i] + seql + new_seq[i+window:]
-			else: new_seq = new_seq[:i] + 'N'*window + new_seq[i+window:]
-		else: new_seq += seq[i]
-	seqs.append((defline, new_seq))
+for name, seq in mcb185.read_fasta(arg.file):
+	seql = list(seq.upper())
+	win = seq[:arg.w]
+	H = [0] * len(c)
+	p = [0] * len(c)
+	count = [0] * len(c)
+	seqout = ''
 
-for defline, seq in seqs:
-	print(f'>{defline}')
-	for i in range (0, len(seq),60):
-		print(seq[i:i+60])
+	for i in range(len(c)):
+		count[i] = win.count(c[i])
+		p[i] = count[i] / arg.w
+		if p[i] != 0:
+			H[i] -= p[i] * math.log2(p[i])
+
+
+	for i in range(len(seq) - arg.w):
+		if sum(H) < arg.t:
+			seql[i + m] = convert(seql[i + m])
+
+
+		ps = c.find(win[0])
+		count[ps] -= 1
+		p[ps] = count[ps] / arg.w
+		win = win[1:] + seq[i + arg.w]
+		pe = c.find(win[-1])
+		count[pe] += 1
+		p[pe] = count[pe] / arg.w
+
+
+		for i in range(2):
+			if p[ps] != 0:
+				H[ps] =- p[ps] * math.log2(p[ps])
+			else:
+				H[ps] = 0
+			ps = pe
+
+
+	print('>' + name)
+	print(''.join(seql))
+
+
+
+
+
 
 """
 python3 50dust.py -w 11 -t 1.4 -s e.coli.fna  | head
