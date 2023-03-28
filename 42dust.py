@@ -14,48 +14,45 @@
 # cd ~/Code/HWnow 
 # python3 42dust.py test.fa 11 1.4
 
-import sys
 import mcb185
 import math
+import sys
 
-file = sys.argv[1]
-window = int(sys.argv[2])
-threshold = float(sys.argv[3])
+DNA_BASES = 'ACGT'
 
-def entropy(seq):
-	ea = 0
-	et = 0
-	ec = 0
-	eg = 0
-	for nt in seq:
-		if nt == 'A': ea += 1
-		elif nt == 'T': et += 1
-		elif nt == 'C': ec += 1
-		elif nt == 'G': eg += 1
-	prob = [ea/len(seq), et/len(seq), ec/len(seq), eg/len(seq)]
-	h = 0
-	for p in prob:
-		if p == 0: continue
-		h -= p*math.log2(p)
-	return h
+def calculate_entropy(sequence):
+	"""Calculate Shannon entropy of the given DNA sequence."""
+	entropy = 0
+	for base in DNA_BASES:
+		frequency = sequence.count(base) / len(sequence)
+		if frequency != 0:
+			entropy -= frequency * math.log2(frequency)
+	return entropy
 
-seqs = []
-for defline, seq in mcb185.read_fasta(file):
-	seq = seq.upper()
-	new_seq = ''
-	for i in range(0, len(seq)):
 
-		if entropy(seq[i:i+window]) < threshold:
-			new_seq += 'N'
-		else:
-			new_seq += seq[i]
-	seqs.append((defline, new_seq))
+for name, sequence in mcb185.read_fasta(sys.argv[1]):
 
-for defline, seq in seqs:
-	print(f'>{defline}')
-	for i in range (0, len(seq),60):
-		print(seq[i:i+60])
-		
+	window_size = int(sys.argv[2])
+	threshold = float(sys.argv[3])
+
+	window = sequence[:window_size]
+	replacements = 0
+
+	for i in range(len(sequence) - window_size):
+
+		if calculate_entropy(window) < threshold:
+
+			sequence = sequence[:i] + 'N' + sequence[i + 1:]
+			replacements += 1
+
+			if replacements % 60 == 0:
+				print(sequence[replacements - 60:replacements])
+
+		window = window[1:] + sequence[i + window_size]
+
+	remaining_bases = len(sequence) % 60
+	if remaining_bases != 0:
+		print(sequence[-remaining_bases:])	
 
    
 
