@@ -17,68 +17,57 @@
 # cd ~/Code/HWnow 
 # python3 50dust.py -w 11 -t 1.4 -s test.fa  | head
 # python3 50dust.py -w 11 -t 1.4 -s testfile.fa  | head
-
-
 import argparse
 import mcb185
 import math
 
-parser = argparse.ArgumentParser(description='Entropy')
-parser.add_argument('file', type=str, metavar='<path>', help='some file')
-parser.add_argument('-w', required=False, type=int, metavar='<int>', default=11, help='window size')
-parser.add_argument('-t', required=False, type=float, metavar='<float>', default=1.4, help='entropy threshold')
-parser.add_argument('-s', action='store_true', help='on/off switch for lowercase masking')
-arg = parser.parse_args()
+parser = argparse.ArgumentParser(description='Calculate sequence entropy and mask in lowercase.')
+parser.add_argument('-w', metavar='window_size', type=int, default=11,
+					help='Size of window used to calculate entropy. Default is 11.')
+parser.add_argument('-t', metavar='threshold', type=float, default=1.4,
+					help='Masking threshold for entropy. Default is 1.4.')
+parser.add_argument('-s', '--lowercase-masking', action='store_true',
+					help='Use lowercase masking for nucleotides below the entropy threshold.')
+parser.add_argument('file', metavar='path_to_file',
+					help='Path to input FASTA file.')
+args = parser.parse_args()
 
-c = 'ACGT'
-m = arg.w // 2
-
-if arg.s ==True:
-	def convert(nucleotide):
+def convert(nucleotide):
+	if args.lowercase_masking:
 		return nucleotide.lower()
-else:
-	def convert(nucleotide):
-		return 'N'
+	else:
+		return nucleotide.upper()
 
-for name, seq in mcb185.read_fasta(arg.file):
-	seql = list(seq.upper())
-	win = seq[:arg.w]
-	H = [0] * len(c)
-	p = [0] * len(c)
-	count = [0] * len(c)
-	seqout = ''
+alphabet = 'ACGT'
+mask_value = args.w // 2
 
-	for i in range(len(c)):
-		count[i] = win.count(c[i])
-		p[i] = count[i] / arg.w
-		if p[i] != 0:
-			H[i] -= p[i] * math.log2(p[i])
+for name, seq in mcb185.read_fasta(args.file):
+	seq_list = list(seq.upper())  
+	window = seq[:args.w]  
 
+	for i in range(len(seq) - args.w):
+		H = [0] * len(alphabet)  
+		count = [0] * len(alphabet)  
+		p = [0] * len(alphabet)  #
+		for j in range(args.w):
+			count[alphabet.find(window[j])] += 1
+		for j in range(len(alphabet)):
+			p[j] = count[j] / args.w
+			if p[j] != 0:
+				H[j] -= p[j] * math.log2(p[j])
+		if sum(H) < args.t:
+			seq_list[i + mask_value] = convert(seq_list[i + mask_value])
 
-	for i in range(len(seq) - arg.w):
-		if sum(H) < arg.t:
-			seql[i + m] = convert(seql[i + m])
+		count[alphabet.find(window[0])] -= 1
+		window = window[1:] + seq[i + args.w]
+		count[alphabet.find(window[-1])] += 1
 
-
-		ps = c.find(win[0])
-		count[ps] -= 1
-		p[ps] = count[ps] / arg.w
-		win = win[1:] + seq[i + arg.w]
-		pe = c.find(win[-1])
-		count[pe] += 1
-		p[pe] = count[pe] / arg.w
-
-
-		for i in range(2):
-			if p[ps] != 0:
-				H[ps] =- p[ps] * math.log2(p[ps])
-			else:
-				H[ps] = 0
-			ps = pe
-
-
-	print('>' + name)
-	print(''.join(seql))
+		if (i + 1) % 60 == 0:
+			seq_out = ''.join(seq_list[i + 1 - 60:i + 1]) + '\n'
+			print(seq_out, end='')
+	seq_out = ''.join(seq_list[(len(seq)//60)*60:])
+	if len(seq_out) > 0:
+		print(seq_out)
 
 
 
